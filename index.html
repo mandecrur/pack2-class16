@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exercises Class 16 — Speaking Sub-skills (Part II, Q6&ndash;10)</title>
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap");
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --navy:#1a2744;--navy-mid:#243460;--gold:#c8922a;
+    --ink:#1c1c1e;--ink-2:#3a3a3c;--ink-3:#6e6e73;--rule:#d4d4d8;
+    --bg:#f7f6f2;--white:#fff;--green:#1a6640;--green-lt:#e6f4ec;
+    --red:#8b1a1a;--red-lt:#faeaea;
+  }
+  body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding:0 0 4rem}
+
+  /* HEADER */
+  .exam-header{background:var(--navy);color:#fff;padding:1.75rem 2rem 1.5rem;position:relative}
+  .exam-header::after{content:"";position:absolute;bottom:0;left:0;right:0;height:4px;background:var(--gold)}
+  .hinner{max-width:820px;margin:0 auto;display:grid;grid-template-columns:1fr;align-items:start;gap:1.5rem}
+  .etag{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+  .etitle{font-family:"Crimson Pro",Georgia,serif;font-size:clamp(1.3rem,3vw,1.8rem);font-weight:600;line-height:1.2;margin-bottom:.3rem}
+  .esub{font-size:.8rem;color:rgba(255,255,255,.5);margin-bottom:1rem}
+  .meta-row{display:flex;flex-wrap:wrap;gap:.5rem}
+  .mpill{font-size:.7rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:3px;padding:.2rem .65rem;color:rgba(255,255,255,.65)}
+
+  /* PROGRESS */
+  .prog-wrap{max-width:820px;margin:1.2rem auto 0;padding:0 2rem}
+  .prog-top{display:flex;justify-content:space-between;font-size:.7rem;color:var(--ink-3);margin-bottom:.3rem}
+  .prog-track{height:4px;background:var(--rule);border-radius:2px;overflow:hidden}
+  .prog-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .4s ease}
+
+  /* DOTS */
+  .dots{max-width:820px;margin:.9rem auto 0;padding:0 2rem;display:flex;gap:.4rem}
+  .dot{width:32px;height:32px;border-radius:50%;border:2px solid var(--rule);background:var(--white);font-size:.68rem;font-weight:600;color:var(--ink-3);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;flex-shrink:0}
+  .dot.active{border-color:var(--navy);background:var(--navy);color:#fff}
+  .dot.ok{border-color:var(--green);background:var(--green-lt);color:var(--green)}
+  .dot.fail{border-color:var(--red);background:var(--red-lt);color:var(--red)}
+
+  /* MAIN */
+  .main{max-width:820px;margin:1.5rem auto 0;padding:0 2rem}
+  .qcard{background:var(--white);border:1px solid var(--rule);border-radius:8px;overflow:hidden;display:none}
+  .qcard.active{display:block}
+
+  /* SITUATION */
+  .situation{background:#f0f3fa;border-left:4px solid var(--navy);border-radius:0 6px 6px 0;padding:1rem 1.1rem;margin:1.2rem 1.5rem 0;font-size:.875rem;line-height:1.72;color:var(--ink-2)}
+  .situation-label{font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:.55rem}
+  .situation p{margin-bottom:.5rem}
+  .situation p:last-child{margin-bottom:0}
+  .situation ul{margin:.35rem 0 .35rem 1.1rem}
+  .situation ul li{margin-bottom:.35rem}
+  .situation em{font-style:italic;color:var(--ink)}
+  .situation strong{font-weight:600;color:var(--ink)}
+
+  /* QUESTION */
+  .qhead{padding:1.3rem 1.5rem .85rem}
+  .qnum{font-size:.72rem;font-weight:600;color:var(--ink-3);margin-bottom:.45rem;letter-spacing:.03em}
+  .qstem{font-family:"Crimson Pro",Georgia,serif;font-size:1.07rem;line-height:1.65;color:var(--ink)}
+  .qstem strong{font-weight:600}
+  .qstem em{font-style:italic}
+
+  /* OPTIONS */
+  .qbody{padding:.85rem 1.5rem 1.3rem}
+  .opt{display:flex;align-items:flex-start;gap:.7rem;padding:.65rem .85rem;border:1.5px solid var(--rule);border-radius:5px;margin-bottom:.45rem;cursor:pointer;transition:border-color .15s,background .15s;user-select:none;width:100%;text-align:left;background:var(--white);font-family:"Inter",sans-serif}
+  .opt:last-of-type{margin-bottom:0}
+  .opt:hover:not(.locked){border-color:#7b9de8;background:#f0f3fa}
+  .opt.sel{border-color:var(--navy);background:#edf0f9}
+  .opt.cor{border-color:var(--green);background:var(--green-lt)}
+  .opt.wrg{border-color:var(--red);background:var(--red-lt)}
+  .opt.locked{cursor:default}
+  .obadge{flex-shrink:0;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--rule);font-size:.7rem;font-weight:700;color:var(--ink-3);display:flex;align-items:center;justify-content:center;margin-top:.1rem;transition:all .15s}
+  .opt.sel .obadge{border-color:var(--navy);color:var(--navy)}
+  .opt.cor .obadge{border-color:var(--green);color:var(--green)}
+  .opt.wrg .obadge{border-color:var(--red);color:var(--red)}
+  .otext{font-size:.875rem;line-height:1.6;color:var(--ink-2);padding-top:.05rem}
+  .opt.cor .otext{color:var(--green);font-weight:500}
+  .opt.wrg .otext{color:var(--red)}
+
+  /* ACTIONS */
+  .acts{display:flex;align-items:center;gap:.7rem;margin-top:1rem;flex-wrap:wrap}
+  .bcheck{padding:.55rem 1.35rem;background:var(--navy);color:#fff;font-size:.8rem;font-weight:500;border:none;border-radius:4px;cursor:pointer;transition:background .15s,opacity .15s;font-family:"Inter",sans-serif}
+  .bcheck:disabled{opacity:.3;cursor:not-allowed}
+  .bcheck:hover:not(:disabled){background:var(--navy-mid)}
+  .bnext{padding:.55rem 1.35rem;background:var(--gold);color:#fff;font-size:.8rem;font-weight:500;border:none;border-radius:4px;cursor:pointer;display:none;font-family:"Inter",sans-serif;transition:background .15s}
+  .bnext:hover{background:#b07a20}
+  .rbadge{font-size:.74rem;font-weight:600;padding:.28rem .65rem;border-radius:3px;display:none}
+  .rbadge.ok{display:inline-block;background:var(--green-lt);color:var(--green)}
+  .rbadge.fail{display:inline-block;background:var(--red-lt);color:var(--red)}
+
+  /* EXPLANATION */
+  .exp{display:none;margin-top:1rem;padding:.9rem 1rem .95rem;background:var(--bg);border-left:3px solid var(--gold);border-radius:0 4px 4px 0}
+  .exp.vis{display:block}
+  .explbl{font-size:.67rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--gold);margin-bottom:.38rem}
+  .exptext{font-size:.855rem;line-height:1.7;color:var(--ink-2)}
+  .exptext strong{color:var(--ink);font-weight:600}
+  .exptext em{font-style:italic}
+
+  /* FINAL */
+  .final{display:none;background:var(--navy);color:#fff;border-radius:8px;padding:2.25rem 2rem;text-align:center;margin-top:1.5rem}
+  .final.vis{display:block}
+  .fscore{font-family:"Crimson Pro",serif;font-size:3.2rem;font-weight:600;color:var(--gold);line-height:1}
+  .flbl{font-size:.84rem;color:rgba(255,255,255,.5);margin:.3rem 0 1.2rem}
+  .fmsg{font-size:.82rem;color:rgba(255,255,255,.42);margin-bottom:1.5rem;max-width:400px;margin-left:auto;margin-right:auto}
+  .fgrid{display:flex;justify-content:center;gap:2rem;margin-bottom:1.5rem}
+  .fstat-n{font-size:1.8rem;font-weight:600}
+  .fstat-n.g{color:#6ee7a0}
+  .fstat-n.r{color:#f87171}
+  .fstat-l{font-size:.7rem;color:rgba(255,255,255,.35);margin-top:.15rem}
+  .breset{padding:.6rem 1.5rem;background:transparent;color:#fff;font-size:.8rem;font-weight:500;border:1.5px solid rgba(255,255,255,.28);border-radius:4px;cursor:pointer;font-family:"Inter",sans-serif;transition:background .15s}
+  .breset:hover{background:rgba(255,255,255,.08)}
+
+  @media(max-width:540px){
+    .main,.prog-wrap,.dots{padding:0 1rem}
+    .qhead,.qbody{padding-left:1rem;padding-right:1rem}
+    .situation{margin-left:1rem;margin-right:1rem}
+  }
+</style>
+</head>
+<body>
+
+<header class="exam-header">
+  <div class="hinner">
+    <div>
+      <p class="etag">EBR Secundaria &middot; &Aacute;rea: Ingl&eacute;s como Lengua Extranjera</p>
+      <h1 class="etitle">Exercises Class 16</h1>
+      <p class="esub">Speaking Sub-skills &mdash; Functional Speaking, TBL &amp; Fluency Instructions &middot; Nombramiento y Ascenso Docente</p>
+      <div class="meta-row">
+        <span class="mpill">5 questions</span>
+        <span class="mpill">Part II &middot; Q6&ndash;10</span>
+        <span class="mpill">Harmer &middot; Willis &middot; MINEDU</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="prog-wrap">
+  <div class="prog-top">
+    <span id="plbl">Question 1 of 5</span>
+    <span id="ppct">20%</span>
+  </div>
+  <div class="prog-track"><div class="prog-fill" id="pfill" style="width:20%"></div></div>
+</div>
+
+<div class="dots">
+  <div class="dot active" id="d1">6</div>
+  <div class="dot" id="d2">7</div>
+  <div class="dot" id="d3">8</div>
+  <div class="dot" id="d4">9</div>
+  <div class="dot" id="d5">10</div>
+</div>
+
+<main class="main">
+
+<!-- Q1 (Pregunta 6) -->
+<div class="qcard active" id="q1">
+  <div class="situation">
+    <div class="situation-label">Read the following situation and answer question 6</div>
+    <p>Camila&rsquo;s fourth graders are going to practice their oral skills. She wants her students to <strong>describe location</strong> in a functional context, and so she will take advantage of the school field trip to the zoo they enjoyed the day before.</p>
+  </div>
+  <div class="qhead">
+    <p class="qnum">Question 6</p>
+    <p class="qstem">Given her goal, which of the following strategies is <strong>more appropriate</strong> to carry out?</p>
+  </div>
+  <div class="qbody">
+    <button class="opt" onclick="sel(this,'q1','A')"><span class="obadge">a</span><span class="otext">First, the teacher gives the students a worksheet with statements that mention where to find some animals at the zoo. In groups, the students discuss whether the statements are true or false. Then the teacher dictates the answers and asks the students to construct one more sentence about the location of an animal. Finally, the students read the sentence to the class.</span></button>
+    <button class="opt" onclick="sel(this,'q1','B')"><span class="obadge">b</span><span class="otext">First, the teacher makes a list of the zoo animals on the board. Next, she assigns an animal to each student. Individually, the students prepare an oral description of the animal&rsquo;s location without mentioning its name. Finally, the students take part in a guessing game.</span></button>
+    <button class="opt" onclick="sel(this,'q1','C')"><span class="obadge">c</span><span class="otext">First, the teacher pairs up the students and gives them a copy of the map of the zoo. She asks them to roleplay a conversation: Student A is a visitor who wants to find an animal, and Student B is a guide who gives directions using the map. Finally, the students practice the conversation and present it to the class.</span></button>
+    <div class="acts">
+      <button class="bcheck" id="q1-btn" disabled onclick="chk('q1','C',1)">Check answer</button>
+      <span class="rbadge" id="q1-rb"></span>
+      <button class="bnext" id="q1-nx" onclick="goTo(2)">Next &rarr;</button>
+    </div>
+    <div class="exp" id="q1-exp">
+      <p class="explbl">Correct answer: c &mdash; Explanation</p>
+      <p class="exptext">La opción <strong>c</strong> es la más apropiada porque cumple los dos requisitos del objetivo: desarrollar habilidades orales en un contexto funcional. El roleplay de visitante y guía en el zoológico es una situación real y comunicativa donde describir ubicaciones tiene un propósito genuino. La opción <strong>a</strong> trabaja oralmente pero de forma controlada y mecánica (verdadero/falso). La opción <strong>b</strong> también es oral pero el foco es adivinar el animal, no describir ubicaciones funcionalmente. Solo la <strong>c</strong> usa el lenguaje de localización con un propósito comunicativo auténtico.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q2 (Pregunta 7) -->
+<div class="qcard" id="q2">
+  <div class="situation">
+    <div class="situation-label">Read the following situation and answer question 7</div>
+    <p>Omar wants his students to develop their speaking skills. He has planned the following teaching sequence:</p>
+    <ul>
+      <li>The teacher shows the students an <strong>emergency backpack</strong> and asks about its purpose and the kind of objects it should carry. Students discuss and share their answers.</li>
+      <li>Next, the teacher presents a situation on the board: <em>&ldquo;Lately, there have been frequent tremors in our country and we all know a strong earthquake may occur sooner or later. So, it&rsquo;s important to have an emergency backpack in which you can carry necessary objects to survive in case of an earthquake.&rdquo;</em></li>
+      <li>Then the teacher gives the following instructions: <em>&ldquo;In groups, make a list of the 10 most important objects to carry in your emergency backpack. Then present your list and explain why the objects you have chosen are important to carry.&rdquo;</em></li>
+      <li>The students are given prompts such as <em>&ldquo;We consider that having a&hellip; is important because&hellip;&rdquo;</em> to use during the activity.</li>
+      <li>Each group presents their list and supports their choices using the prompts given.</li>
+      <li>Finally, the teacher asks the students to analyze the kind of language they used during the activity.</li>
+    </ul>
+  </div>
+  <div class="qhead">
+    <p class="qnum">Question 7</p>
+    <p class="qstem">Which of the following methods is Omar developing in his teaching sequence?</p>
+  </div>
+  <div class="qbody">
+    <button class="opt" onclick="sel(this,'q2','A')"><span class="obadge">a</span><span class="otext">Problem-Based Learning.</span></button>
+    <button class="opt" onclick="sel(this,'q2','B')"><span class="obadge">b</span><span class="otext">Content-Based Learning.</span></button>
+    <button class="opt" onclick="sel(this,'q2','C')"><span class="obadge">c</span><span class="otext">Task-Based Learning.</span></button>
+    <div class="acts">
+      <button class="bcheck" id="q2-btn" disabled onclick="chk('q2','C',2)">Check answer</button>
+      <span class="rbadge" id="q2-rb"></span>
+      <button class="bnext" id="q2-nx" onclick="goTo(3)">Next &rarr;</button>
+    </div>
+    <div class="exp" id="q2-exp">
+      <p class="explbl">Correct answer: c &mdash; Explanation</p>
+      <p class="exptext">La secuencia de Omar sigue exactamente la estructura del <strong>TBL</strong>: hay una tarea comunicativa concreta (hacer una lista de los 10 objetos más importantes y presentarla justificando las elecciones), los estudiantes usan el lenguaje de forma natural y con propósito real para completarla, y al final el profesor pide que analicen el lenguaje usado (lo que en TBL se llama <em>language focus</em> o <em>post-task</em>). No es Problem-Based Learning (<strong>a</strong>) porque el foco no es resolver un problema complejo de investigación sino completar una tarea oral. No es Content-Based Learning (<strong>b</strong>) porque el contenido temático es solo el vehículo para practicar el speaking, no el objetivo de aprendizaje en sí. <strong>(Willis, 1996)</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- Q3 (Pregunta 8) -->
+<div class="qcard" id="q3">
+  <div class="situation">
+    <div class="situation-label">Read the following situation and answer question 8</div>
+    <p>Rebeca wants to help her fifth grade students improve their <strong>speaking fluency</strong> through a functional activity.</p>
+  </div>
+  <div class="qhead">
+    <p class="qnum">Question 8</p>
+    <p class="qstem">Taking her purpose into account, which of the following activities is it <strong>appropriate</strong> to carry out?</p>
+  </div>
+  <div class="qbody">
+    <button class="opt" onclick="sel(this,'q3','A')"><span class="obadge">a</span><span class="otext">Pair up the students and ask them to perform a phone call between a university secretary and a prospective student. The prospective student asks about the requirements to apply to the university and the secretary gives him/her information.</span></button>
+    <button class="opt" onclick="sel(this,'q3','B')"><span class="obadge">b</span><span class="otext">Pair up the students and give one of them a list of written sentences and the other one a blank piece of paper. The student with the sentences will dictate them to his peer, and his peer will write down the sentences on the piece of paper.</span></button>
+    <button class="opt" onclick="sel(this,'q3','C')"><span class="obadge">c</span><span class="otext">Pair up the students, give each pair a tongue twister in English and ask them to learn the tongue twister by heart. Give the students some practice time and remind them to pay attention to their pronunciation and speed.</span></button>
+    <div class="acts">
+      <button class="bcheck" id="q3-btn" disabled onclick="chk('q3','A',3)">Check answer</button>
+      <span class="rbadge" id="q3-rb"></span>
+      <button class="bnext" id="q3-nx" onclick="goTo(4)">Next &rarr;</button>
+    </div>
+    <div class="exp" id="q3-exp">
+      <p class="explbl">Correct answer: a &mdash; Explanation</p>
+      <p class="exptext">El roleplay de una llamada telefónica entre secretaria y estudiante es una situación real y auténtica donde los estudiantes necesitan hablar de forma fluida y natural para lograr un propósito comunicativo genuino. La opción <strong>b</strong> también es oral pero es un dictado, que no desarrolla fluidez sino precisión en la escritura. La opción <strong>c</strong> trabaja la pronunciación y velocidad con un trabalenguas, lo cual puede ayudar con la pronunciación pero no es una actividad funcional: memorizar un trabalenguas no simula ninguna situación comunicativa real de la vida cotidiana. <strong>(Harmer, 2007)</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- Q4 (Pregunta 9) -->
+<div class="qcard" id="q4">
+  <div class="situation">
+    <div class="situation-label">Read the following situation and answer question 9</div>
+    <p>Tatiana&rsquo;s students have drawn the timeline of a typical day in the life of their favorite artist, and they are now getting ready to present it orally. Taking advantage of that context, Tatiana would like her students to develop their <strong>oral fluency</strong>.</p>
+  </div>
+  <div class="qhead">
+    <p class="qnum">Question 9</p>
+    <p class="qstem">Considering the teacher&rsquo;s purpose, which set of instructions is it appropriate to deliver <strong>before</strong> the students give their oral presentations?</p>
+  </div>
+  <div class="qbody">
+    <button class="opt" onclick="sel(this,'q4','A')"><span class="obadge">a</span><span class="otext">&ldquo;Practice giving the oral presentation with the help of a classmate. Help each other identify and correct grammar mistakes. Take into account the corrections and rehearse your presentation one last time.&rdquo;</span></button>
+    <button class="opt" onclick="sel(this,'q4','B')"><span class="obadge">b</span><span class="otext">&ldquo;Think about what you are going to say and write it in your notebooks. Try to memorize the ideas you have written down. Once you can say them quickly and without stopping, come to the front and present them.&rdquo;</span></button>
+    <button class="opt" onclick="sel(this,'q4','C')"><span class="obadge">c</span><span class="otext">&ldquo;When giving your presentation, use understandable vocabulary related to the topic. Also, try to sound natural and avoid making too many pauses. Remember you have to pay attention to your pronunciation as well.&rdquo;</span></button>
+    <div class="acts">
+      <button class="bcheck" id="q4-btn" disabled onclick="chk('q4','C',4)">Check answer</button>
+      <span class="rbadge" id="q4-rb"></span>
+      <button class="bnext" id="q4-nx" onclick="goTo(5)">Next &rarr;</button>
+    </div>
+    <div class="exp" id="q4-exp">
+      <p class="explbl">Correct answer: c &mdash; Explanation</p>
+      <p class="exptext">Es la única instrucción que apunta directamente a desarrollar la fluidez oral: pide a los estudiantes sonar naturales, evitar pausas excesivas y cuidar la pronunciación, todos aspectos clave de la fluidez. La opción <strong>a</strong> se enfoca en corregir errores gramaticales, lo cual apunta a la precisión (<em>accuracy</em>), no a la fluidez. La opción <strong>b</strong> pide escribir y memorizar las ideas, lo cual convierte la presentación en una reproducción mecánica de texto escrito, que tampoco desarrolla fluidez oral genuina. <strong>(Thornbury, 2005)</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- Q5 (Pregunta 10) -->
+<div class="qcard" id="q5">
+  <div class="situation">
+    <div class="situation-label">Read the following situation and answer question 10</div>
+    <p>Carmen has planned the following teaching sequence to develop her third graders&rsquo; <strong>writing skills</strong>:</p>
+    <ul>
+      <li>The teacher writes <em>&ldquo;Pollution is destroying our planet&rdquo;</em> and divides the board in two columns: <em>&ldquo;What do you know about the issue?&rdquo;</em> and <em>&ldquo;How could we solve this issue?&rdquo;</em></li>
+      <li>The students work in groups to answer both questions. A member of each group writes some of the group&rsquo;s ideas in each column.</li>
+      <li>Then the teacher asks the students to look for additional information at the school library and take notes of relevant ideas.</li>
+      <li>Back in the classroom, in groups, they choose the best ideas to save our planet. Finally, the teacher asks them to work on a short text to present their ideas to the class.</li>
+    </ul>
+  </div>
+  <div class="qhead">
+    <p class="qnum">Question 10</p>
+    <p class="qstem">Which of the following is <strong>NOT</strong> an objective developed in Carmen&rsquo;s lesson?</p>
+  </div>
+  <div class="qbody">
+    <button class="opt" onclick="sel(this,'q5','A')"><span class="obadge">a</span><span class="otext">Checking students&rsquo; accuracy.</span></button>
+    <button class="opt" onclick="sel(this,'q5','B')"><span class="obadge">b</span><span class="otext">Promoting cooperative learning.</span></button>
+    <button class="opt" onclick="sel(this,'q5','C')"><span class="obadge">c</span><span class="otext">Developing students&rsquo; speaking skills.</span></button>
+    <div class="acts">
+      <button class="bcheck" id="q5-btn" disabled onclick="chk('q5','A',5)">Check answer</button>
+      <span class="rbadge" id="q5-rb"></span>
+      <button class="bnext" id="q5-nx" onclick="showFinal()">See results &rarr;</button>
+    </div>
+    <div class="exp" id="q5-exp">
+      <p class="explbl">Correct answer: a &mdash; Explanation</p>
+      <p class="exptext">En ningún momento de la secuencia Carmen se enfoca en verificar la precisión gramatical de los estudiantes: no hay corrección de errores, no hay retroalimentación sobre la forma del lenguaje, ni ninguna actividad orientada a evaluar que escriban con exactitud gramatical. Las opciones <strong>b</strong> y <strong>c</strong> sí están presentes: el aprendizaje cooperativo aparece porque los estudiantes trabajan en grupos durante toda la secuencia, y el speaking aparece cuando los grupos presentan sus ideas oralmente a la clase. La secuencia desarrolla pensamiento crítico, colaboración y escritura con propósito comunicativo, pero <em>checking accuracy</em> no forma parte de ninguno de sus pasos.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL -->
+<div class="final" id="final">
+  <div class="fscore" id="fscore">— / 5</div>
+  <div class="flbl">Final result &middot; Exercises Class 16 &middot; Questions 6&ndash;10</div>
+  <div class="fmsg" id="fmsg"></div>
+  <div class="fgrid">
+    <div><div class="fstat-n g" id="fok">0</div><div class="fstat-l">Correct</div></div>
+    <div><div class="fstat-n r" id="ferr">0</div><div class="fstat-l">Incorrect</div></div>
+  </div>
+  <button class="breset" onclick="resetAll()">Try again</button>
+</div>
+
+</main>
+
+<script>
+const ans={};
+const cor={q1:"C",q2:"C",q3:"A",q4:"C",q5:"A"};
+
+function sel(el,qid,letter){
+  const c=document.getElementById(qid);
+  if(c.classList.contains("locked"))return;
+  c.querySelectorAll(".opt").forEach(o=>o.classList.remove("sel"));
+  el.classList.add("sel");
+  ans[qid]=letter;
+  document.getElementById(qid+"-btn").disabled=false;
+}
+
+function chk(qid,correct,n){
+  const c=document.getElementById(qid);
+  if(c.classList.contains("locked"))return;
+  c.classList.add("locked");
+  const ch=ans[qid];
+  const isOk=ch===correct;
+  c.querySelectorAll(".opt").forEach(o=>{
+    o.classList.add("locked");
+    const l=o.querySelector(".obadge").textContent.trim().toUpperCase();
+    if(l===correct) o.classList.add("cor");
+    else if(l===ch&&!isOk) o.classList.add("wrg");
+  });
+  const rb=document.getElementById(qid+"-rb");
+  document.getElementById(qid+"-btn").style.display="none";
+  rb.textContent=isOk?"✓ Correct":"✗ Incorrect";
+  rb.className="rbadge "+(isOk?"ok":"fail");
+  document.getElementById(qid+"-exp").classList.add("vis");
+  document.getElementById(qid+"-nx").style.display="inline-block";
+  document.getElementById("d"+n).className="dot "+(isOk?"ok":"fail");
+}
+
+function goTo(n){
+  document.querySelectorAll(".qcard").forEach(c=>c.classList.remove("active"));
+  document.getElementById("q"+n).classList.add("active");
+  document.querySelectorAll(".dot").forEach((d,i)=>{
+    if(!d.classList.contains("ok")&&!d.classList.contains("fail"))
+      d.className="dot"+(i===n-1?" active":"");
+  });
+  const pct=Math.round(n/5*100);
+  document.getElementById("pfill").style.width=pct+"%";
+  document.getElementById("plbl").textContent="Question "+n+" of 5";
+  document.getElementById("ppct").textContent=pct+"%";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function showFinal(){
+  document.querySelectorAll(".qcard").forEach(c=>c.classList.remove("active"));
+  document.getElementById("pfill").style.width="100%";
+  document.getElementById("plbl").textContent="Completed";
+  document.getElementById("ppct").textContent="100%";
+  let s=0;
+  Object.keys(cor).forEach(k=>{if(ans[k]===cor[k])s++;});
+  const e=5-s,pct=Math.round(s/5*100);
+  document.getElementById("fscore").textContent=s+" / 5";
+  document.getElementById("fok").textContent=s;
+  document.getElementById("ferr").textContent=e;
+  const msgs=["Conviene repasar Functional Speaking, TBL y las instrucciones de fluidez antes del examen.","Buen intento. Refuerza los conceptos donde te equivocaste.","Muy buen resultado. Repasa las preguntas que fallaste.","¡Puntaje perfecto! Dominas estas preguntas."];
+  document.getElementById("fmsg").textContent=msgs[pct===100?3:pct>=80?2:pct>=60?1:0];
+  document.getElementById("final").classList.add("vis");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function resetAll(){
+  Object.keys(ans).forEach(k=>delete ans[k]);
+  for(let i=1;i<=5;i++){
+    const c=document.getElementById("q"+i);
+    c.classList.remove("locked","active");
+    c.querySelectorAll(".opt").forEach(o=>o.classList.remove("sel","cor","wrg","locked"));
+    const btn=c.querySelector(".bcheck");btn.disabled=true;btn.style.display="";
+    const rb=c.querySelector(".rbadge");rb.className="rbadge";rb.textContent="";
+    c.querySelector(".exp").classList.remove("vis");
+    c.querySelector(".bnext").style.display="none";
+  }
+  document.getElementById("q1").classList.add("active");
+  document.querySelectorAll(".dot").forEach((d,i)=>{d.className="dot"+(i===0?" active":"");});
+  document.getElementById("final").classList.remove("vis");
+  document.getElementById("pfill").style.width="20%";
+  document.getElementById("plbl").textContent="Question 1 of 5";
+  document.getElementById("ppct").textContent="20%";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+</script>
+</body>
+</html>
