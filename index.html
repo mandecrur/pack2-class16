@@ -268,30 +268,24 @@
 <div class="qcard" id="q5">
   <div class="situation">
     <div class="situation-label">Read the following situation and answer question 10</div>
-    <p>Carmen has planned the following teaching sequence to develop her third graders&rsquo; <strong>writing skills</strong>:</p>
-    <ul>
-      <li>The teacher writes <em>&ldquo;Pollution is destroying our planet&rdquo;</em> and divides the board in two columns: <em>&ldquo;What do you know about the issue?&rdquo;</em> and <em>&ldquo;How could we solve this issue?&rdquo;</em></li>
-      <li>The students work in groups to answer both questions. A member of each group writes some of the group&rsquo;s ideas in each column.</li>
-      <li>Then the teacher asks the students to look for additional information at the school library and take notes of relevant ideas.</li>
-      <li>Back in the classroom, in groups, they choose the best ideas to save our planet. Finally, the teacher asks them to work on a short text to present their ideas to the class.</li>
-    </ul>
+    <p>Rosa&rsquo;s sixth-grade students are planning a weekend camping trip in pairs. She wants to give them a <strong>functional speaking task</strong> in which they need to negotiate meaning and reach an agreement in English.</p>
   </div>
   <div class="qhead">
     <p class="qnum">Question 10</p>
-    <p class="qstem">Which of the following is <strong>NOT</strong> an objective developed in Carmen&rsquo;s lesson?</p>
+    <p class="qstem">Which of the following activities <strong>BEST</strong> develops Rosa&rsquo;s purpose?</p>
   </div>
   <div class="qbody">
-    <button class="opt" onclick="sel(this,'q5','A')"><span class="obadge">a</span><span class="otext">Checking students&rsquo; accuracy.</span></button>
-    <button class="opt" onclick="sel(this,'q5','B')"><span class="obadge">b</span><span class="otext">Promoting cooperative learning.</span></button>
-    <button class="opt" onclick="sel(this,'q5','C')"><span class="obadge">c</span><span class="otext">Developing students&rsquo; speaking skills.</span></button>
+    <button class="opt" onclick="sel(this,'q5','A')"><span class="obadge">a</span><span class="otext">The teacher gives every student the exact same list of camping items and asks each of them to read it aloud to the class.</span></button>
+    <button class="opt" onclick="sel(this,'q5','B')"><span class="obadge">b</span><span class="otext">The teacher gives each student in the pair a different, incomplete list of camping items; they must ask each other questions to complete their list and agree on a final version together.</span></button>
+    <button class="opt" onclick="sel(this,'q5','C')"><span class="obadge">c</span><span class="otext">The teacher asks the students to memorize a sample conversation about camping trips and perform it in front of the class.</span></button>
     <div class="acts">
-      <button class="bcheck" id="q5-btn" disabled onclick="chk('q5','A',5)">Check answer</button>
+      <button class="bcheck" id="q5-btn" disabled onclick="chk('q5','B',5)">Check answer</button>
       <span class="rbadge" id="q5-rb"></span>
       <button class="bnext" id="q5-nx" onclick="showFinal()">See results &rarr;</button>
     </div>
     <div class="exp" id="q5-exp">
-      <p class="explbl">Correct answer: a &mdash; Explanation</p>
-      <p class="exptext">En ningún momento de la secuencia Carmen se enfoca en verificar la precisión gramatical de los estudiantes: no hay corrección de errores, no hay retroalimentación sobre la forma del lenguaje, ni ninguna actividad orientada a evaluar que escriban con exactitud gramatical. Las opciones <strong>b</strong> y <strong>c</strong> sí están presentes: el aprendizaje cooperativo aparece porque los estudiantes trabajan en grupos durante toda la secuencia, y el speaking aparece cuando los grupos presentan sus ideas oralmente a la clase. La secuencia desarrolla pensamiento crítico, colaboración y escritura con propósito comunicativo, pero <em>checking accuracy</em> no forma parte de ninguno de sus pasos.</p>
+      <p class="explbl">Correct answer: b &mdash; Explanation</p>
+      <p class="exptext">La opción <strong>b</strong> genera un verdadero vacío de información (<em>information gap</em>): cada alumno tiene datos distintos e incompletos, por lo que necesitan hacerse preguntas reales y negociar significados para completar la tarea y llegar a un acuerdo &mdash; esto es precisamente lo que la Clave MINEDU marca como una actividad genuinamente comunicativa. La opción <strong>a</strong> no genera ningún vacío de información (todos tienen la misma lista), por lo que no hay razón real para comunicarse. La opción <strong>c</strong> se basa en la memorización exacta de un guion, que la Clave MINEDU indica descartar porque elimina la negociación de significados.</p>
     </div>
   </div>
 </div>
@@ -312,7 +306,7 @@
 
 <script>
 const ans={};
-const cor={q1:"C",q2:"C",q3:"A",q4:"C",q5:"A"};
+const cor={q1:"C",q2:"C",q3:"A",q4:"C",q5:"B"};
 
 function sel(el,qid,letter){
   const c=document.getElementById(qid);
